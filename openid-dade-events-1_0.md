@@ -1,7 +1,7 @@
 ---
 stand_alone: true
 ipr: none
-cat: std # Check
+cat: info
 submissiontype: IETF
 wg: OpenID Shared Signals
 

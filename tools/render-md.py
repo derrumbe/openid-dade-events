@@ -58,10 +58,9 @@ margin-bottom:2rem;padding-bottom:1rem;border-bottom:1px solid var(--rule);color
 """
 
 NAV = ('<div class="nav"><a href="./">Specification</a>'
-       '<a href="charter.html">Charter</a>'
        '<a href="event-catalog.html">Event catalog</a>'
-       '<a href="openid-iitp-wise-comparison.html">IITP / WISE comparison</a>'
-       '<a href="https://github.com/derrumbe/openid-iitp">Repository</a></div>')
+       '<a href="dade-event-reference.html">Event reference</a>'
+       '<a href="https://github.com/derrumbe/openid-dade-events">Repository</a></div>')
 
 
 def main():
@@ -76,8 +75,7 @@ def main():
     html = html.replace("<table>", '<div class="tablewrap"><table>')
     html = html.replace("</table>", "</table></div>")
     # Point in-repo markdown links at their rendered counterparts.
-    html = html.replace('href="openid-iitp-1_0.md"', 'href="./"')
-    html = html.replace('href="CHARTER.md"', 'href="charter.html"')
+    html = html.replace('href="openid-dade-events-1_0.md"', 'href="./"')
     html = html.replace('href="EVENT-CATALOG.md"', 'href="event-catalog.html"')
 
     with open(dst, "w", encoding="utf-8") as fh:
