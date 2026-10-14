@@ -1,0 +1,7 @@
+build/
+public/
+.refcache/
+.DS_Store
+
+# Google Drive shortcut files
+*.gdoc

@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Every event in the DADE profile: what triggers it, who sends it, its claims, the statutes that require them, how Receivers respond, and an example SET.">
+<title>DADE Event Reference</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<style>
+:root{
+  --ground:#F3F5F7; --surface:#FFFFFF; --ink:#16212B; --muted:#56657A; --rule:#D6DDE5;
+  --accent:#0F6B7F; --accent-ink:#FFFFFF; --accent-soft:#E0EEF1;
+  --gap:#8F5A00; --gap-soft:#FBF0DC;
+  --code-bg:#EEF2F5; --code-key:#0F6B7F; --code-str:#3F6B1F; --code-num:#8F3F71; --code-punct:#7A8797;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --cond:"IBM Plex Sans Condensed","IBM Plex Sans","Arial Narrow",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --ground:#0F151B; --surface:#151D25; --ink:#E3E9EF; --muted:#93A2B3; --rule:#2A3643;
+    --accent:#5CC2D6; --accent-ink:#0B1A1F; --accent-soft:#16323A;
+    --gap:#E3AB4E; --gap-soft:#33280F;
+    --code-bg:#111920; --code-key:#6FCBDD; --code-str:#A5CF7E; --code-num:#E39BC8; --code-punct:#6D7C8C;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --ground:#0F151B; --surface:#151D25; --ink:#E3E9EF; --muted:#93A2B3; --rule:#2A3643;
+  --accent:#5CC2D6; --accent-ink:#0B1A1F; --accent-soft:#16323A;
+  --gap:#E3AB4E; --gap-soft:#33280F;
+  --code-bg:#111920; --code-key:#6FCBDD; --code-str:#A5CF7E; --code-num:#E39BC8; --code-punct:#6D7C8C;
+}
+
+*{box-sizing:border-box}
+:root{color-scheme:light}
+html,body{margin:0}
+[hidden]{display:none!important}
+body{background:var(--ground);color:var(--ink);font:15px/1.6 var(--sans);padding-inline:16px;padding-block:0 64px}
+a{color:var(--accent)}
+code,.mono{font-family:var(--mono);font-size:.88em}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
+
+.wrap{max-width:1180px;margin:0 auto}
+header.top{padding-block:48px 28px;border-bottom:1px solid var(--rule);display:grid;gap:14px}
+.eyebrow{font:600 11px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+h1{font:700 clamp(30px,5vw,46px)/1.05 var(--cond);margin:0;letter-spacing:-.01em;text-wrap:balance}
+.lede{max-width:68ch;margin:0;color:var(--muted);font-size:16px}
+.lede strong{color:var(--ink);font-weight:600}
+.counts{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:13px;color:var(--muted)}
+.counts b{font:600 15px var(--mono);color:var(--ink);font-variant-numeric:tabular-nums}
+
+.layout{display:grid;grid-template-columns:230px minmax(0,1fr);gap:48px;padding-top:32px}
+@media (max-width:880px){.layout{grid-template-columns:minmax(0,1fr);gap:24px}}
+
+nav.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);align-self:start;max-height:calc(100vh - 32px);overflow:auto;font-size:13px}
+@media (max-width:880px){nav.toc{position:static;max-height:none;border:1px solid var(--rule);background:var(--surface);border-radius:6px;padding:14px}}
+.filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px}
+.filters button{font:500 12px var(--sans);border:1px solid var(--rule);background:var(--surface);color:var(--ink);padding:5px 10px;border-radius:999px;cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--ink);color:var(--ground);border-color:var(--ink)}
+.toc h4{margin:14px 0 4px;font:600 11px/1.3 var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.toc ol{list-style:none;margin:0;padding:0;display:grid;gap:1px}
+.toc a{display:flex;align-items:center;gap:8px;padding:3px 6px;margin-inline:-6px;border-radius:4px;color:var(--ink);text-decoration:none;font-family:var(--mono);font-size:12.5px}
+.toc a:hover{background:var(--accent-soft)}
+.dot{width:7px;height:7px;border-radius:50%;flex:none;border:1.5px dashed var(--muted)}
+.dot.spec{background:var(--accent);border:1.5px solid var(--accent)}
+
+main{min-width:0}
+section.shared{margin-bottom:48px}
+h2.sect{font:600 22px/1.2 var(--cond);margin:0 0 6px}
+.sect-note{color:var(--muted);margin:0 0 16px;max-width:70ch}
+.tbl-wrap{overflow-x:auto;border:1px solid var(--rule);border-radius:6px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{text-align:left;vertical-align:top;padding:8px 12px;border-bottom:1px solid var(--rule)}
+tr:last-child td{border-bottom:0}
+th{font:600 11px var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:var(--ground)}
+td:first-child{font-family:var(--mono);font-size:12.5px;white-space:nowrap;color:var(--accent)}
+td.req{font:500 11px var(--sans);letter-spacing:.05em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+td.req.r{color:var(--ink)}
+.enum{display:block;margin-top:3px;color:var(--muted);font-size:12.5px}
+.enum code{font-size:11.5px;background:var(--code-bg);padding:1px 4px;border-radius:3px;color:var(--ink)}
+.twocol{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+.lifecycle{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:13.5px;margin-top:14px}
+.lifecycle span{white-space:nowrap}
+
+.group{margin-top:56px}
+.group-head{border-top:2px solid var(--ink);padding-top:12px;margin-bottom:8px;display:grid;gap:4px}
+.group-head h3{margin:0;font:600 20px/1.2 var(--cond)}
+.group-head p{margin:0;color:var(--muted);max-width:70ch;font-size:14px}
+
+article.ev{padding-block:30px;border-bottom:1px solid var(--rule);display:grid;gap:18px;scroll-margin-top:16px}
+article.ev:last-child{border-bottom:0}
+.ev-head{display:grid;gap:6px}
+.ev-title{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px 14px}
+.ev-title .num{font:500 13px var(--mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.ev-title h3{margin:0;font:600 clamp(20px,3vw,25px)/1.2 var(--mono);letter-spacing:-.01em;word-break:break-word}
+.pill{font:600 10.5px/1 var(--sans);letter-spacing:.09em;text-transform:uppercase;padding:5px 8px;border-radius:3px;white-space:nowrap}
+.pill.spec{background:var(--accent);color:var(--accent-ink)}
+.pill.prop{border:1px dashed var(--muted);color:var(--muted)}
+.uri{font:12px var(--mono);color:var(--muted);word-break:break-all}
+.summary{font-size:17px;line-height:1.5;margin:0;max-width:62ch;text-wrap:pretty}
+
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:6px;overflow:hidden}
+.facts div{background:var(--surface);padding:10px 14px}
+.facts dt{font:600 10.5px var(--sans);letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+.facts dd{margin:0;font-size:13.5px;line-height:1.45}
+
+.block h4{margin:0 0 8px;font:600 11px var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.block p{margin:0 0 8px;max-width:70ch}
+.block ul{margin:0;padding-left:18px;max-width:70ch;display:grid;gap:3px}
+.caveat{font-size:12.5px;color:var(--muted);font-style:italic;margin-top:8px}
+
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.chip{font:500 12px/1 var(--mono);padding:6px 8px;border-radius:4px;background:var(--accent-soft);color:var(--ink);border:1px solid transparent}
+.chip.gap{background:var(--gap-soft);border:1px dashed var(--gap);color:var(--ink)}
+.chip.gap::after{content:" · varies by law";font-family:var(--sans);font-size:10.5px;color:var(--gap)}
+.legend{display:flex;flex-wrap:wrap;gap:12px;font-size:12.5px;color:var(--muted);margin-top:10px}
+.legend .chip{font-size:11px;padding:3px 6px}
+.legend .chip.gap::after{content:none}
+
+.law{border-left:3px solid var(--accent);background:var(--accent-soft);padding:10px 14px;border-radius:0 4px 4px 0;font-size:13.5px;max-width:74ch}
+.law h4{margin:0 0 6px;font:600 10.5px var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
+.law p{margin:0;max-width:none}
+.law p+p{margin-top:6px}
+
+.notes{border-left:3px solid var(--gap);background:var(--gap-soft);padding:10px 14px;border-radius:0 4px 4px 0;font-size:13.5px;max-width:74ch}
+.notes b{color:var(--gap)}
+.notes p{margin:0}
+.notes p+p{margin-top:6px}
+
+details.ex{border:1px solid var(--rule);border-radius:6px;background:var(--surface)}
+details.ex summary{cursor:pointer;padding:10px 14px;font:500 13px var(--sans);display:flex;gap:10px;align-items:center;list-style:none}
+details.ex summary::-webkit-details-marker{display:none}
+details.ex summary::before{content:"▸";color:var(--muted);transition:transform .15s}
+details.ex[open] summary::before{transform:rotate(90deg)}
+details.ex summary small{color:var(--muted);font-weight:400}
+pre{margin:0;padding:14px 16px;background:var(--code-bg);overflow-x:auto;font:12.5px/1.55 var(--mono);border-top:1px solid var(--rule);border-radius:0 0 6px 6px;tab-size:2}
+.k{color:var(--code-key)} .s{color:var(--code-str)} .n{color:var(--code-num)} .p{color:var(--code-punct)}
+
+footer{margin-top:56px;padding-top:18px;border-top:1px solid var(--rule);color:var(--muted);font-size:12.5px;max-width:80ch}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="eyebrow">OpenID Shared Signals · DADE Event Profile 1.0 draft 00</div>
+    <h1>DADE Event Reference</h1>
+    <p class="lede">Every event in the Death and the Digital Estate profile: what triggers it, who sends it, what is in the payload, and what a Receiver can do about it. These events describe <strong>the legal status of a person and the authority others hold over their affairs</strong>. They carry <strong>facts, not their legal consequences</strong>: the same transition has materially different effects in different jurisdictions, so each event names the law against which it is to be read and leaves the conclusion to whoever is entitled to draw it.</p>
+    <div class="counts" id="counts"></div>
+  </header>
+
+  <div class="layout">
+    <nav class="toc" aria-label="Events">
+      <div class="filters" role="group" aria-label="Filter by status">
+        <button id="f-all" data-f="all" aria-pressed="true">All</button>
+        <button id="f-spec" data-f="spec" aria-pressed="false">In spec</button>
+        <button id="f-prop" data-f="prop" aria-pressed="false">Candidate</button>
+      </div>
+      <div id="toc"></div>
+    </nav>
+
+    <main>
+      <section class="shared" id="shared">
+        <h2 class="sect">Shared by every event</h2>
+        <p class="sect-note">Each DADE event is a Security Event Token (SET, RFC 8417) carried over the Shared Signals Framework. The event types live under <code>https://schemas.openid.net/secevent/dade/event-type/</code>, and every one of them can carry these common claims in addition to its own.</p>
+        <div class="tbl-wrap"><table>
+          <thead><tr><th>Claim</th><th>Req</th><th>Meaning</th></tr></thead>
+          <tbody>
+            <tr><td>governing_law</td><td class="req r">Recommended</td><td>The law against which this event's consequence is to be evaluated: <code>jurisdiction</code> (ISO 3166-2 or -1 alpha-2) and <code>as_at</code> (a date). <code>as_at</code> is not redundant with the timestamp — an amendment can take effect retroactively, so the law as at a past date is not fixed merely because the date has passed.</td></tr>
+            <tr><td>initiating_authority</td><td class="req r">Recommended</td><td>Who declared the transition. The weight a Receiver gives an event depends substantially on this.<span class="enum"><code>court</code> <code>registrar</code> <code>notary</code> <code>clinician</code> <code>agency</code> <code>principal</code> <code>custodian</code> <code>claimant</code> <code>operation-of-law</code></span></td></tr>
+            <tr><td>canonical_role</td><td class="req">Optional</td><td>The role held or claimed, from a cross-jurisdiction vocabulary, so that an executor, a <em>liquidator</em> and a <em>Nachlassverwalter</em> line up as one role.</td></tr>
+            <tr><td>evidence</td><td class="req">Optional</td><td>Supporting evidence, using the <code>evidence</code> structures of OpenID Connect for Identity Assurance. Its <code>document</code>, <code>electronic_record</code> and <code>vouch</code> types already cover a death certificate, a register entry and a third party attesting to standing.</td></tr>
+            <tr><td>effect_unspecified</td><td class="req">Optional</td><td>The Transmitter asserts the fact and expressly declines to characterise its legal effect. A Receiver MUST NOT infer a consequence the Transmitter has declined to assert.</td></tr>
+            <tr><td>event_timestamp</td><td class="req">Optional</td><td>When the transition took effect <em>in law</em>, as distinct from when it was recorded. A death registered three days late carries the earlier time.</td></tr>
+            <tr><td>supersedes / corrects</td><td class="req">Optional</td><td>The <code>jti</code> of an earlier SET this one replaces, or corrects and withdraws. A Receiver that acted on a corrected event SHOULD unwind that action so far as it is able.</td></tr>
+            <tr><td>reason_admin / reason_user</td><td class="req">Optional</td><td>Localized messages keyed by BCP 47 language tag. <code>reason_user</code> is usually omitted here — the subject is dead.</td></tr>
+          </tbody>
+        </table></div>
+
+        <div class="twocol" style="margin-top:24px">
+          <div class="block">
+            <h4>Subjects</h4>
+            <p>RFC 9493 defines no Subject Identifier Format for a person who has died, and the formats it does define fit badly: an <code>email</code> or <code>phone_number</code> identifier for a decedent is both likely to be reassigned and unusually sensitive. Draft 00 adds a <code>principal</code> format with an opaque <code>principal_ref</code>, scoped per Transmitter–Receiver pair, and an optional <code>jurisdiction</code>.</p>
+            <p>The subject of every event is the <strong>principal</strong> — the person whose death, capacity or affairs it concerns — so a Receiver can correlate the whole sequence on <code>sub_id</code> alone. A <strong>holder</strong> travels in the event body, not as the subject.</p>
+          </div>
+          <div class="block">
+            <h4>Facts, not effects</h4>
+            <p>A court appoints a conservator over the property of someone who had granted a power of attorney. Across seven US states that one event has five different effects on the existing power: it continues; it terminates; the court allocates functions between the two; the conservator acquires the principal's own power to revoke it; or the power is <em>suspended</em> and later <em>reinstated</em> if capacity returns.</p>
+            <p>An event asserting "the power of attorney is terminated" is therefore wrong in five of the seven. One asserting "a conservator was appointed, under the law of Iowa, as at this date" is right in all of them.</p>
+            <div class="lifecycle">
+              <span><code>authority_status: reinstated</code></span>
+              <span><code>capacity_status: restored</code></span>
+              <span><code>record_status: withdrawn</code></span>
+            </div>
+          </div>
+        </div>
+        <div class="legend">
+          <span><span class="dot spec" style="display:inline-block"></span>&nbsp; In spec (draft 00)</span>
+          <span><span class="dot" style="display:inline-block"></span>&nbsp; Candidate (not specified)</span>
+          <span><span class="chip">response</span> a Receiver action the profile anticipates</span>
+          <span><span class="chip gap">response</span> whether it is available at all depends on the governing law</span>
+        </div>
+      </section>
+
+      <div id="events"></div>
+
+      <footer>
+        Built from the <a href="index.html">DADE Event Profile 1.0</a> (draft 00) and the <a href="event-catalog.html">DADE Event Catalog</a>. Events marked <em>In spec</em> reproduce the draft's normative claims and examples. For <em>Candidate</em> events, the claim names, types, value sets and example payloads are illustrative and are not specified anywhere. The statutory grounding quoted in each <em>Why the law needs it</em> panel is drawn from the <a href="https://xebecstudios.org/research/digital-estate-roles/">Digital Estate Roles</a> survey of 56 jurisdictions across 24 countries, where each claim is cited to its primary source with a retrieval date. This is an independent working draft, not a publication of the OpenID Foundation, and it is not legal advice.
+      </footer>
+    </main>
+  </div>
+</div>
+
+<script>
+const BASE = "https://schemas.openid.net/secevent/dade/event-type/";
+
+const GROUPS = [
+  {id:"state", name:"The principal's state", blurb:"The two transitions in the person themselves. Everything else in the profile is downstream of one of them, and both are reversible — a death record can be withdrawn and capacity can return."},
+  {id:"authority", name:"Authority lifecycle", blurb:"The standing of someone acting for the principal: granted, registered, suspended, revived, re-scoped, devolved, ended. One event type carries the whole lifecycle because the parties and the bounds are the same at each step and only the transition differs."},
+  {id:"direction", name:"The principal's own directions", blurb:"What the principal told a custodian to do, which is not the same as who they appointed. A direction may permit or forbid, and the prohibiting case is the one an implementation is most likely to get wrong."},
+  {id:"presentation", name:"Presentation, acceptance and refusal", blurb:"The exchange at the counter. These are the events a custodian sends, and in one surveyed state the refusal is not a courtesy but a statutory duty owed to the court that issued the letters."}
+];
+
+function set(iss, aud, txn, sub, type, body){
+  const o = {iss, jti:"…", iat:1792109000, aud};
+  if(txn) o.txn = txn;
+  o.sub_id = sub; o.events = {[BASE+type]:body};
+  return o;
+}
+const prin = (ref, jur) => ({format:"principal", principal_ref:ref, jurisdiction:jur});
+const GL = (j, d="2026-10-14") => ({jurisdiction:j, as_at:d});
+
+const EVENTS = [
+/* ---------- 1 ---------- */
+{n:1, g:"state", name:"principal-deceased", spec:true,
+ summary:"The death of the principal has been recorded. It is the transition most of the rest of the profile depends on, and the one most able to do harm if it is wrong.",
+ facts:{sender:"A civil registry, a health system, a funeral director's filing, or a platform told by a family member", receiver:"Platforms, banks, estate services, and registries downstream of the record", subject:"<code>principal</code>", clears:"<code>record_status: withdrawn</code> with <code>corrects</code> naming the original"},
+ causes:"Someone has recorded that the principal is dead. What varies — and what a Receiver has to weigh — is who recorded it and on what. A registry entry and a family member's phone call are the same event type and nothing like the same assertion.",
+ triggers:["A death is entered in a civil register (<code>death_type: registered</code>)","A clinician certifies the death (<code>certified</code>)","A court declares or presumes death (<code>judicial</code>)","Death is reported to the Transmitter with neither (<code>reported</code>)","An earlier record is found to be wrong and is withdrawn (<code>record_status: withdrawn</code>)"],
+ claims:[
+  ["record_status","Rec","Lifecycle of the record itself. Defaults to <code>recorded</code>. A Transmitter sending <code>amended</code> or <code>withdrawn</code> MUST include <code>corrects</code>.",["recorded","amended","withdrawn"]],
+  ["date_of_death","Rec","The date of death, or the date fixed by a finding of presumed death where the law permits one."],
+  ["death_type","O","How the death came to be recorded.",["registered","certified","judicial","reported"]],
+  ["proof","O","The artefact the record rests on.",["death-certificate","abstract-of-death","funeral-expense-attestation","registry-record","court-order"]],
+  ["registry_reference","O","An opaque reference to the record in the Transmitter's own register, for later correlation."]
+ ],
+ law:["<b>A death record can be wrong, and it can be withdrawn.</b> That is why <code>record_status</code> and <code>corrects</code> are part of the event rather than an erratum process bolted on beside it. The correction nonetheless arrives after whatever the first event caused — see the security panel in the spec.",
+      "<b>The proof of death is not always a death certificate</b>, and the window in which it is not is precisely the window in which a family first contacts a custodian. One surveyed statute accepts an <em>abstract</em> of death expressly because certificates are delayed; another accepts proof of payment of funeral expenses in place of a certificate altogether. A profile whose only <code>proof</code> value were <code>death-certificate</code> would be unusable in the first fortnight."],
+ actions:[["stop-inactivity-timers",1],["freeze-destructive-automation",1],["prepare-claim-evaluation",1],["notify-designee",0]],
+ response:"Grant nothing on this alone. Stop any inactivity or dormancy clock, freeze automation that would delete or recycle the account, and prepare to evaluate a claim that has not yet arrived. Where the principal lodged a direction naming a designee, this is the point at which the designee may be notified — if the direction permits it.",
+ example:set("https://registry.example.gov/","https://platform.example.com/ssf","dade-2026-0001",prin("opaque:7f3c91a0e2","US-IA"),"principal-deceased",{
+  record_status:"recorded", date_of_death:"2026-10-02", death_type:"registered",
+  proof:"death-certificate", registry_reference:"IA-2026-114502",
+  initiating_authority:"registrar", governing_law:GL("US-IA"), event_timestamp:1791936000})
+},
+/* ---------- 2 ---------- */
+{n:2, g:"state", name:"principal-capacity-changed", spec:true,
+ summary:"A determination has been made about the principal's capacity, or an earlier determination has ceased to hold. Both directions travel on one event type, because the reverse direction is load-bearing.",
+ facts:{sender:"A clinician, a court, or a statutory panel where the law requires more than one determiner", receiver:"Platforms, banks and policy decision points holding an authority that the finding suspends or revives", subject:"<code>principal</code>", clears:"<code>capacity_status: restored</code>, or the passing of <code>expires_at</code>"},
+ causes:"A determination of incapacity is what brings a standby authority to life in most of the surveyed jurisdictions, and a determination that capacity has returned is what sends it back to sleep. The event is not a diagnosis and carries none.",
+ triggers:["A clinician determines the principal lacks capacity (<code>impaired</code>)","A court makes the same finding in appointing a fiduciary","A re-examination finds capacity has returned (<code>restored</code>)","The determination is challenged (<code>contested</code>)","A statutory shelf life expires and the finding must be made again"],
+ claims:[
+  ["capacity_status","R","The determination.",["impaired","restored","contested"]],
+  ["determiner","Rec","Who made it. Several statutes require a specific profession, or two of them.",["physician","psychologist","nurse-practitioner","physician-assistant","judge","governmental-official","panel"]],
+  ["scope","Rec","What the determination reaches. Conflating the two over-reports.",["property","person","both"]],
+  ["finding_date","O","The date of the determination."],
+  ["expires_at","O","When the determination stops holding without being made again. A Receiver MUST NOT treat a determination as continuing past this time."],
+  ["objection","O","The principal has objected and the governing law gives the objection effect."]
+ ],
+ law:["<b>A capacity finding is not self-certifying and does not last for ever.</b> The surveyed statutes put shelf lives on these determinations ranging from two hours to five years, after which the finding has to be made again. <code>expires_at</code> exists so that a Receiver holding a suspended authority does not hold it suspended indefinitely on the strength of a finding that has lapsed.",
+      "<b>Scope is not decoration.</b> A determination of incapacity for financial purposes does not necessarily extend to health-care decisions, and in several jurisdictions the two are made by different people under different acts. An event that said only \"incapable\" would suspend more than the law suspends."],
+ actions:[["suspend-authority",0],["reinstate-authority",0],["require-co-decision",0],["notify-holder",1]],
+ response:"Suspend or revive exactly what the governing law attaches to the finding, and nothing more. Because what that is varies, a Transmitter that knows the answer should say so with a matching <code>authority-changed</code> rather than leave the Receiver to infer it.",
+ example:set("https://ehr.example.org/","https://platform.example.com/ssf",null,prin("opaque:7f3c91a0e2","US-UT"),"principal-capacity-changed",{
+  capacity_status:"restored", determiner:"physician", scope:"both", finding_date:"2026-10-11",
+  initiating_authority:"clinician", governing_law:GL("US-UT"),
+  corrects:"0c9e8d7a6b5c4d3e2f10112233445566",
+  reason_admin:{en:"Capacity found restored on re-examination; prior finding of 2026-08-02 no longer holds."}})
+},
+/* ---------- 3 ---------- */
+{n:3, g:"authority", name:"authority-changed", spec:true,
+ summary:"The standing of a legal authority held, or to be held, by someone over the principal or their estate has changed. One event type carries the whole lifecycle, with authority_status selecting the transition.",
+ facts:{sender:"A court, a registry, a notary, the principal, or the operation of law with nobody declaring anything", receiver:"Any custodian that may be asked to honour the authority", subject:"<code>principal</code>; the holder travels in <code>holder</code>", clears:"<code>terminated</code> ends it; <code>reinstated</code> revives a suspension"},
+ causes:"An authority is conferred, becomes effective, goes dormant, comes back, moves, narrows or ends. Treating each of these as a separate event type would multiply the vocabulary without adding anything: the parties, the role and the bounds are identical and only the transition differs.",
+ triggers:["A court issues letters or a grant (<code>granted</code>)","A registry completes the step that makes a power effective, or creates it (<code>registered</code>)","A conservator is appointed and an existing power goes dormant (<code>suspended</code>)","Capacity returns and the dormant power revives (<code>reinstated</code>)","A court re-allocates functions between two fiduciaries (<code>scope-changed</code>)","A holder forfeits and an alternate steps up (<code>devolved</code>)","The principal revokes, the purpose is fulfilled, or the holder resigns (<code>terminated</code>)"],
+ claims:[
+  ["authority_status","R","The transition.",["granted","registered","suspended","reinstated","scope-changed","devolved","terminated"]],
+  ["holder","Rec","Who holds it: an opaque <code>holder_ref</code> and an optional <code>holder_type</code> of <code>natural-person</code>, <code>legal-person</code> or <code>public-office</code>."],
+  ["artefact","O","What evidences the authority. <code>none</code> is not an error.",["letters","grant","certificate-of-inheritance","court-order","instrument","affidavit","certification-of-trust","register-entry","platform-record","none"]],
+  ["scope","O","The bounds as stated on its face: <code>limits</code>, a <code>monetary_ceiling</code> of <code>{amount, currency}</code>, and <code>co_holders</code> of <code>{count, acting}</code>. Amounts are in the currency of the governing jurisdiction and are never converted."],
+  ["registration_effect","O","Present with <code>registered</code>. Whether registration makes an existing instrument effective or brings the authority into existence.",["activates","creates"]],
+  ["revival","O","Present with <code>suspended</code>. Whether the authority is known in advance to revive.",["automatic","order-required","none"]],
+  ["cause","O","Why the transition occurred.",["death","revocation","court-appointment","court-order","conviction","administrative-finding","non-exercise","expiry","purpose-fulfilled","resignation","capacity-restored"]],
+  ["predecessor","O","Present with <code>devolved</code>. The holder the authority passed from, with the same structure as <code>holder</code>."]
+ ],
+ law:["<b><code>suspended</code> and <code>reinstated</code> exist because a two-state model cannot express the law.</b> An authority may be valid, temporarily ineffective, and effective again, with nothing issued or withdrawn at either boundary. One surveyed statute provides that the appointment of a conservator suspends an existing power of attorney, which is then \"reinstated upon termination of the conservatorship as a result of the principal regaining capacity\". Another has a health-care authority commence, cease and resume with successive clinical findings. A Receiver modelling authority as present or absent will either honour a dormant authority or refuse a revived one.",
+      "<b><code>registered</code> exists because in ten of the forty-four jurisdictions that record the point, an instrument can be valid and confer nothing.</b> It must be registered or filed before it can be used, so there is a real interval in which it exists and does not work. In one of those jurisdictions registration is <em>constitutive</em> rather than procedural: the statute does not say the power must be registered before use, it says the power is not created unless registered. <code>registration_effect</code> is the difference between honouring an authority that does not exist and refusing one that does.",
+      "<b><code>artefact: none</code> is a third of the world.</b> In 16 of the 24 countries surveyed the heirs hold the estate from the moment of death, with no document issued and no authority declaring anything. Paired with <code>initiating_authority: operation-of-law</code>, that is the honest description of the most common succession regime on earth — and a vocabulary that could not say it would be a vocabulary for common-law probate wearing an international label."],
+ actions:[["honour-authority",0],["suspend-honouring",0],["re-scope-access",0],["require-further-evidence",1],["notify-co-holders",1]],
+ response:"Evaluate the transition against <code>governing_law</code> and act on the conclusion, not on the status name. Where <code>effect_unspecified</code> is true the Transmitter has expressly declined to characterise the consequence, and a Receiver that infers one is on its own.",
+ example:set("https://court.example.gov/","https://platform.example.com/ssf","dade-2026-0042",prin("opaque:7f3c91a0e2","US-IA"),"authority-changed",{
+  authority_status:"suspended", canonical_role:"financial-poa-durable",
+  holder:{holder_ref:"opaque:b21c7e", holder_type:"natural-person"},
+  artefact:"instrument", cause:"court-appointment", revival:"automatic",
+  initiating_authority:"court", governing_law:GL("US-IA"), effect_unspecified:false,
+  reason_admin:{en:"Conservator appointed; power of attorney suspended and revives if capacity is regained."}})
+},
+/* ---------- 4 ---------- */
+{n:4, g:"authority", name:"authority-lapse-pending", spec:false,
+ summary:"An authority is about to lapse by the running of time rather than by anyone's act, and somebody has to be told before it does.",
+ facts:{sender:"Whoever holds the clock: the custodian, the registry, or the issuing court", receiver:"The holder's service, an alternate holder, the issuing authority", subject:"<code>principal</code>", clears:"An <code>authority-changed</code> of <code>terminated</code> if it lapses, or the exercise that stops the clock"},
+ causes:"Several of the surveyed authorities end on a timer that nobody is required to announce. The lapse itself is an <code>authority-changed</code>; this event is the warning before it, and it exists because a deadline nobody is notified of is a deadline that will be missed.",
+ triggers:["A disposition-of-remains authority is approaching the window in which it must be exercised","A capacity determination is approaching its statutory shelf life","A registration or filing is approaching renewal","A court-ordered review date is approaching"],
+ claims:[["lapses_at","—","When the authority ends if nothing happens."],["cause","—","Why: non-exercise, expiry of a determination, a review falling due."],["grace_period","—","Any period after <code>lapses_at</code> in which it can still be saved."],["preventable_by","—","What would stop the lapse: exercising the authority, a fresh determination, a filing."]],
+ actions:[["notify-holder",1],["notify-alternate",0],["escalate-to-issuer",0]],
+ response:"Tell the holder, and tell the alternate if the governing law lets the authority devolve rather than simply end.",
+ law:["<b>At least one surveyed authority is forfeited in under two days.</b> A disposition-of-remains authority is lost if it is not exercised within twenty-four hours of the holder being notified of the death, or forty hours of the death, whichever is earlier — then it passes to the next person in the statutory order. On that clock, a poll-based stream on a daily cadence is not slow, it is useless, and the spec's delivery guidance says so.",
+      "<b>The same shape recurs with capacity.</b> Determinations carrying shelf lives from two hours to five years all have a moment at which somebody should be re-examined, and nothing in the surveyed law requires anyone to send a reminder."],
+ notes:["<b>Open question:</b> whether this is an event at all, or a field on <code>authority-changed</code>. Against it: a pending lapse is not a transition, and a Transmitter that knows <code>lapses_at</code> could have put it on the <code>granted</code> event in the first place. For it: the clock in the disposition-of-remains case starts on a <em>notification</em> the granting Transmitter has no knowledge of."],
+ example:set("https://platform.example.com/","https://executor-service.example.net/ssf",null,prin("opaque:7f3c91a0e2","US-IA"),"authority-lapse-pending",{
+  lapses_at:1792152000, cause:"non-exercise",
+  preventable_by:["exercise-authority"],
+  canonical_role:"disposition-of-remains-agent",
+  holder:{holder_ref:"opaque:9ac41d"},
+  initiating_authority:"custodian", governing_law:GL("US-IA"),
+  reason_admin:{en:"Authority lapses 40 hours after death if not exercised; 6 hours remain."}})
+},
+/* ---------- 5 ---------- */
+{n:5, g:"direction", name:"direction-recorded", spec:true,
+ summary:"The principal has lodged a direction with a custodian about post-mortem access to their accounts or data, or has withdrawn one. A direction is not necessarily a grant — it may forbid.",
+ facts:{sender:"The custodian or controller the direction was lodged with", receiver:"Other custodians, estate services, and anyone who would otherwise ask", subject:"<code>principal</code>", clears:"<code>direction_status: withdrawn</code>, with <code>supersedes</code>"},
+ causes:"The principal used a platform's own tool, or wrote to the controller, to say what should happen to their account or data after their death. This is the only event in the profile the principal themselves initiates.",
+ triggers:["The principal sets an in-product legacy or inactive-account setting","The principal writes to a controller forbidding post-mortem disclosure","The principal names a designee in the custodian's own tool","The principal changes or withdraws any of these"],
+ claims:[
+  ["direction_status","R","Whether the direction was recorded or withdrawn. A <code>withdrawn</code> SHOULD carry <code>supersedes</code>.",["recorded","withdrawn"]],
+  ["effect","R","Whether the direction permits or forbids. <code>forbid</code> MUST NOT be represented as the absence of a <code>permit</code>.",["permit","forbid"]],
+  ["lodged_with","Rec","The custodian or controller it was lodged with, where the law attaches significance to the addressee."],
+  ["designee","O","A person the direction names to act, with the same structure as <code>holder</code>."],
+  ["scope","O","What the direction reaches: <code>assets</code> such as <code>content</code>, <code>catalogue</code>, <code>account-control</code>, <code>deletion</code>, and <code>exclusions</code>."],
+  ["precedence","O","The direction's rank against other instruments, where the governing law states one.",["overrides-other-records","subordinate"]],
+  ["revocable","O","Whether the principal may withdraw it at any time. Where the law makes modifiability at any time a condition of the direction's precedence, this and <code>precedence</code> go together."]
+ ],
+ law:["<b><code>forbid</code> is the reason this is not a variant of <code>authority-changed</code>.</b> In one surveyed jurisdiction a deceased person's data-protection rights are exercisable by an interested person <em>unless the deceased forbade it in writing to the controller</em>, and that prohibition binds. In another, directions lodged with the controller concerned require the data subject's specific consent and expressly may not result from their mere acceptance of the terms of use — and a terms-of-service clause cutting across that right is void. A vocabulary that can only say somebody now holds an authority cannot carry either, and an implementation built for the permitting case silently mis-implements the prohibiting one.",
+      "<b>The addressee is part of the law.</b> Where a prohibition takes effect by virtue of having been lodged <em>with the controller</em>, the custodian is not a relying party assessing somebody else's instrument — it is the party to whom the instrument was given. <code>lodged_with</code> records which.",
+      "<b><code>precedence</code> is a bargain, not a boast.</b> The statutes that let an in-product direction override a contrary direction in a will do so on condition that the tool permits the user to modify or delete it at any time. A custodian claiming <code>overrides-other-records</code> while <code>revocable</code> is false is claiming a precedence the statute does not give it."],
+ actions:[["record-prohibition",1],["suppress-future-requests",1],["notify-designee",0],["decline-disclosure",1]],
+ response:"Record it and honour it. A <code>forbid</code> direction is the one event in this profile that tells a Receiver to do less rather than to consider doing more, and it needs no corroborating authority to be effective.",
+ example:set("https://platform.example.com/","https://executor-service.example.net/ssf",null,prin("opaque:7f3c91a0e2","IT"),"direction-recorded",{
+  direction_status:"recorded", effect:"forbid", lodged_with:"https://platform.example.com/",
+  scope:{assets:["content","catalogue"]}, revocable:true,
+  initiating_authority:"principal", governing_law:GL("IT"),
+  reason_user:{it:"Hai chiesto che i tuoi dati non siano resi accessibili ad altri dopo la tua morte."}})
+},
+/* ---------- 6 ---------- */
+{n:6, g:"presentation", name:"authority-presented", spec:false,
+ summary:"A holder has presented an authority to a custodian. The event exists because the presentation itself starts clocks and attaches duties.",
+ facts:{sender:"The custodian the authority was presented to", receiver:"The issuing court or registry, an estate coordination service", subject:"<code>principal</code>", clears:"<code>authority-accepted</code> or <code>authority-refused</code>"},
+ causes:"Somebody has walked up to the counter. In several of the surveyed jurisdictions that moment is when a statutory response period starts running, and in at least two it is when the custodian's own exposure begins.",
+ triggers:["A personal representative presents letters","An agent presents a power of attorney","A trustee presents a certification of trust","An affiant presents a small-estate affidavit"],
+ claims:[["holder","—","Who presented it."],["artefact","—","What was presented, using the <code>artefact</code> values of <code>authority-changed</code>."],["asks","—","What is being asked for: content, catalogue, account control, deletion, closure."],["presented_at","—","When. Statutory response clocks run from here."],["response_deadline","—","When the governing law requires the custodian to have answered, where it imposes a deadline."]],
+ actions:[["start-response-clock",1],["acknowledge-receipt",1],["request-further-evidence",1]],
+ response:"Acknowledge, start the clock, and answer within it. The answer is one of the next two events.",
+ law:["<b>The clocks are real and short.</b> One surveyed power-of-attorney act gives a custodian <em>seven business days</em> from presentation either to accept an acknowledged power or to request a certification, a translation or an opinion of counsel — and five more business days to accept once the certification arrives. The same state's trust act caps the period for verifying a trustee's identity at <em>ten business days</em>, and makes a person who demands the trust instrument in addition to a certification liable in damages. All three clocks run from the moment of presentation, which a custodian that does not record it cannot show it met."],
+ notes:["<b>Privacy:</b> this is the one event that carries data identifying a living claimant, and it is the one least suited to a broadcast stream. It may belong in a bilateral exchange between the holder's service and the custodian rather than in a Shared Signals stream at all."],
+ example:set("https://platform.example.com/","https://court.example.gov/ssf","dade-2026-0042",prin("opaque:7f3c91a0e2","US-IA"),"authority-presented",{
+  holder:{holder_ref:"opaque:b21c7e", holder_type:"natural-person"},
+  artefact:"certification-of-trust", canonical_role:"successor-trustee",
+  asks:["account-control"], presented_at:1792022800, response_deadline:1792886800,
+  initiating_authority:"claimant", governing_law:GL("US-IA")})
+},
+/* ---------- 7 ---------- */
+{n:7, g:"presentation", name:"authority-accepted", spec:false,
+ summary:"A custodian has accepted an authority and will act on it. The acceptance is a legally significant moment for the custodian, not only for the holder.",
+ facts:{sender:"The custodian", receiver:"The issuing authority, the holder's service, other custodians facing the same claim", subject:"<code>principal</code>", clears:"An <code>authority-changed</code> of <code>terminated</code> ends what was accepted"},
+ causes:"The custodian has evaluated what was presented and is satisfied. Recording it is how the custodian evidences the moment its statutory protection attached.",
+ triggers:["Letters or a grant are accepted and access is opened","A power of attorney is accepted for a specified transaction","A small-estate affidavit is accepted and funds are released"],
+ claims:[["holder","—","Whose authority was accepted."],["artefact","—","What was accepted."],["scope_honoured","—","What the custodian will actually honour, which may be narrower than what was presented."],["effective_at","—","When access was or will be opened."],["conditions","—","Anything the acceptance is conditioned on: an indemnity, a bond, a ceiling."]],
+ actions:[["open-access",1],["release-funds",0],["record-protection",1]],
+ response:"Open what was accepted, and no more than <code>scope_honoured</code> says.",
+ law:["<b>Acceptance is protected, and the protection is dated.</b> Across the surveyed statutes a custodian that accepts an authority in good faith, without actual knowledge that it is void, invalid or terminated, is not liable for having honoured it. The protection attaches at acceptance and depends on what the custodian knew then, so the acceptance is the fact worth recording. Several of the same statutes also protect a custodian that relies on a certification or an agent's affidavit, which is why <code>conditions</code> has a place here."],
+ example:set("https://platform.example.com/","https://executor-service.example.net/ssf","dade-2026-0042",prin("opaque:7f3c91a0e2","US-KS"),"authority-accepted",{
+  holder:{holder_ref:"opaque:b21c7e"}, artefact:"letters",
+  canonical_role:"personal-representative-executor",
+  scope_honoured:{assets:["catalogue","account-control"], exclusions:["content"]},
+  effective_at:1792109400,
+  conditions:["letters-of-office-restrictions-observed"],
+  initiating_authority:"custodian", governing_law:GL("US-KS"),
+  reason_admin:{en:"Letters accepted; restrictions stated on the letters are effective as to this custodian, so content disclosure is excluded."}})
+},
+/* ---------- 8 ---------- */
+{n:8, g:"presentation", name:"authority-refused", spec:true,
+ summary:"A custodian has declined to honour an authority presented to it, and states the ground. This event travels in the opposite direction to every other event in the profile, and at least one legislature already requires it.",
+ facts:{sender:"The custodian that refused", receiver:"The court or registry that issued the authority", subject:"<code>principal</code>", clears:"Nothing clears it; a remediable refusal is followed by a fresh <code>authority-presented</code>"},
+ causes:"A custodian has a ground to refuse, and in at least one jurisdiction a duty to say so. A refusal is a legitimate outcome, not an error: several surveyed statutes enumerate the grounds on which an authority may lawfully be refused, and two enumerate grounds on which it may not.",
+ triggers:["The custodian knows the authority is void, revoked or terminated","The custodian believes in good faith it does not extend to what is asked","The custodian knows or reasonably believes the holder is exceeding it","The custodian knows of, or has made, a report of abuse naming the holder","A proceeding construing the authority is pending","A contingency the authority depends on is unproven"],
+ claims:[
+  ["grounds","R","One or more values from the refusal-grounds registry. MUST NOT be empty.",["actual-knowledge-invalid","good-faith-belief-invalid","exceeding-authority","abuse-known","abuse-report-made","inconsistent-with-law","pending-proceeding","contingency-unproven","not-otherwise-obliged"]],
+  ["holder","Rec","Whose authority was refused."],
+  ["presented_at","O","When the authority was presented. Where a statute sets a deadline for reporting a refusal, it runs from here."],
+  ["artefact","O","What was presented."],
+  ["report_deadline","O","When the governing law requires the refusal to have been reported, where it requires it at all."],
+  ["remediable","O","Whether the custodian would honour the authority if the ground were addressed. Want of evidence is remediable; knowledge of abuse is not."]
+ ],
+ law:["<b>One surveyed state requires this report by statute.</b> A person refusing to accept the authority of a guardian or conservator must, within ten days of the refusal, report the refusal and the reason for it to the court that issued the letters of office, where it is treated as a grievance. The custodian is the Transmitter and the issuing court is the Receiver — which is why a deployment supporting this event needs a stream in which the issuing authority receives.",
+      "<b>Two grounds are prohibited and must never be sent.</b> At least one surveyed statute forbids refusing an authority exclusively because of the age or date of execution of the instrument, and exclusively because the custodian wants a different form of instrument used. A receiving authority that sees either, or sees no ground at all, has learned something about the custodian rather than about the holder.",
+      "<b>Good faith is a ground the holder cannot clear.</b> One statute makes the good-faith belief ground available \"whether or not a certification or an opinion of counsel was requested or provided\", so a Receiver must not assume that supplying more evidence removes it."],
+ actions:[["report-to-issuer",1],["notify-holder",1],["preserve-account",1]],
+ response:"If the Receiver is the issuing authority, treat the refusal as what the governing law makes it — in the state above, a grievance. If it is the holder's service, tell the holder whether the ground is remediable and what would address it.",
+ example:set("https://platform.example.com/","https://court.example.gov/ssf","dade-2026-0042",prin("opaque:7f3c91a0e2","US-KS"),"authority-refused",{
+  grounds:["abuse-report-made"],
+  holder:{holder_ref:"opaque:b21c7e", holder_type:"natural-person"},
+  artefact:"letters", presented_at:1792022800, report_deadline:1792886800,
+  remediable:false,
+  initiating_authority:"custodian", governing_law:GL("US-KS"),
+  reason_admin:{en:"Refused: a report under the adult protective services statute has been made naming the guardian."}})
+}
+];
+
+/* ---------- rendering ---------- */
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+function highlight(obj){
+  const json = esc(JSON.stringify(obj,null,2));
+  return json.replace(/(&quot;|")((?:\\.|[^"\\])*?)"(\s*:)?|\b(-?\d+(?:\.\d+)?)\b|\b(true|false|null)\b|([{}\[\],])/g,
+    (m,q,str,colon,num,bool,punct)=>{
+      if(str!==undefined) return colon ? `<span class="k">"${str}"</span><span class="p">:</span>` : `<span class="s">"${str}"</span>`;
+      if(num!==undefined) return `<span class="n">${num}</span>`;
+      if(bool!==undefined) return `<span class="n">${bool}</span>`;
+      return `<span class="p">${punct}</span>`;
+    });
+}
+const REQ = {R:["Required","r"],Rec:["Recommended","r"],O:["Optional",""],"—":["Not specified",""]};
+
+function renderEvent(e){
+  const pill = e.spec ? `<span class="pill spec">In spec</span>` : `<span class="pill prop">Candidate</span>`;
+  const claimRows = e.claims.map(([c,r,m,en])=>{
+    const [rl,rc]=REQ[r];
+    const enumH = en ? `<span class="enum">${en.map(v=>`<code>${v}</code>`).join(" ")}</span>` : "";
+    return `<tr><td>${c}</td><td class="req ${rc}">${rl}</td><td>${m}${enumH}</td></tr>`;
+  }).join("");
+  const chips = e.actions.length
+    ? `<div class="chips">${e.actions.map(([a,fixed])=>`<span class="chip${fixed?"":" gap"}">${a}</span>`).join("")}</div>` : "";
+  const law = e.law ? `<div class="law"><h4>Why the law needs it</h4>${e.law.map(n=>`<p>${n}</p>`).join("")}</div>` : "";
+  const notes = e.notes ? `<div class="notes">${e.notes.map(n=>`<p>${n}</p>`).join("")}</div>` : "";
+  return `<article class="ev" id="${e.name}" data-status="${e.spec?"spec":"prop"}">
+    <div class="ev-head">
+      <div class="ev-title"><span class="num">#${e.n}</span><h3>${e.name}</h3>${pill}</div>
+      <div class="uri">${BASE}${e.name}</div>
+    </div>
+    <p class="summary">${e.summary}</p>
+    <dl class="facts">
+      <div><dt>Sent by</dt><dd>${e.facts.sender}</dd></div>
+      <div><dt>Acted on by</dt><dd>${e.facts.receiver}</dd></div>
+      <div><dt>Subject</dt><dd>${e.facts.subject}</dd></div>
+      <div><dt>Reversed or followed by</dt><dd>${e.facts.clears}</dd></div>
+    </dl>
+    <div class="block"><h4>What causes it</h4><p>${e.causes}</p><ul>${e.triggers.map(t=>`<li>${t}</li>`).join("")}</ul></div>
+    <div class="block"><h4>What it sends</h4>
+      <div class="tbl-wrap"><table><thead><tr><th>Claim</th><th>Req</th><th>Meaning</th></tr></thead><tbody>${claimRows}</tbody></table></div>
+      ${e.spec ? "" : `<p class="caveat">Claim names come from the Event Catalog. Types, requirement levels and value sets are not yet specified.</p>`}
+    </div>
+    ${law}
+    <div class="block"><h4>What a Receiver can do</h4>${chips}<p>${e.response}</p></div>
+    ${notes}
+    <details class="ex" id="ex-${e.name}">
+      <summary>Example SET <small>${e.spec ? "from draft 00 (non-normative)" : "illustrative only, not in the draft"}</small></summary>
+      <pre><code>${highlight(e.example)}</code></pre>
+    </details>
+  </article>`;
+}
+
+document.getElementById("events").innerHTML = GROUPS.map(g=>{
+  const evs = EVENTS.filter(e=>e.g===g.id);
+  return `<section class="group" data-group="${g.id}">
+    <div class="group-head"><div class="eyebrow">Group ${GROUPS.indexOf(g)+1}</div><h3>${g.name}</h3><p>${g.blurb}</p></div>
+    ${evs.map(renderEvent).join("")}
+  </section>`;
+}).join("");
+
+document.getElementById("toc").innerHTML = `<h4 style="margin-top:0">Overview</h4><ol><li><a href="#shared" style="font-family:var(--sans)">Shared claims &amp; subjects</a></li></ol>` +
+  GROUPS.map(g=>`<div data-group="${g.id}"><h4>${g.name}</h4><ol>${EVENTS.filter(e=>e.g===g.id).map(e=>
+    `<li data-status="${e.spec?"spec":"prop"}"><a href="#${e.name}"><span class="dot${e.spec?" spec":""}"></span>${e.name}</a></li>`).join("")}</ol></div>`).join("");
+
+const nSpec = EVENTS.filter(e=>e.spec).length;
+const nGrounds = EVENTS.find(e=>e.name==="authority-refused").claims.find(c=>c[0]==="grounds")[3].length;
+document.getElementById("counts").innerHTML =
+  `<span><b>${EVENTS.length}</b> events</span><span><b>${nSpec}</b> in spec</span><span><b>${EVENTS.length-nSpec}</b> candidates</span><span><b>${GROUPS.length}</b> groups</span><span><b>${nGrounds}</b> refusal grounds drawn from statute</span><span><b>56</b> jurisdictions surveyed</span>`;
+
+/* filter */
+function applyFilter(f){
+  document.querySelectorAll(".filters button").forEach(b=>b.setAttribute("aria-pressed", String(b.dataset.f===f)));
+  document.querySelectorAll("[data-status]").forEach(el=>{ el.hidden = f!=="all" && el.dataset.status!==f; });
+  document.querySelectorAll("[data-group]").forEach(el=>{
+    el.hidden = ![...el.querySelectorAll("[data-status]")].some(x=>!x.hidden);
+  });
+  try{ localStorage.setItem("dade-filter", f); }catch(_){}
+}
+document.querySelectorAll(".filters button").forEach(b=>b.addEventListener("click",()=>applyFilter(b.dataset.f)));
+let saved="all"; try{ saved = localStorage.getItem("dade-filter") || "all"; }catch(_){}
+applyFilter(saved);
+
+/* open an example when deep-linked to an event */
+if(location.hash){
+  const el=document.getElementById(location.hash.slice(1));
+  if(el){
+    if(el.closest("[hidden]")) applyFilter("all");
+    const go=()=>el.scrollIntoView();
+    go(); (document.fonts ? document.fonts.ready : Promise.resolve()).then(()=>requestAnimationFrame(go));
+  }
+}
+</script>
+</body>
+</html>
