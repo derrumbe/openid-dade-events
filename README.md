@@ -10,7 +10,7 @@ registration, suspension, reinstatement, termination and devolution of an author
 the person or their estate, a direction the person lodged with a custodian, and a
 custodian's refusal to honour an authority presented to it.
 
-The event vocabulary is drawn from a survey of **56 jurisdictions across 24 countries**
+The event vocabulary is drawn from a survey of **57 jurisdictions across 24 countries**
 ([Digital Estate Roles][roles]), in which every claim is cited to primary law with a
 retrieval date.
 

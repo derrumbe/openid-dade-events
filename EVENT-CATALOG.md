@@ -5,7 +5,7 @@ and the authority others hold over their affairs**
 
 This catalog summarizes all candidate DADE event types so they can be reviewed together.
 DADE events describe **who may act for a person, and on what standing**, after that person
-dies or loses capacity. They are drawn from a survey of 56 jurisdictions across 24
+dies or loses capacity. They are drawn from a survey of 57 jurisdictions across 24
 countries, where each underlying claim is cited to primary law with a retrieval date.
 
 Events are organized into four groups. Each event reuses the shared DADE claims

@@ -86,7 +86,7 @@ required to do that rather than asserting a result.
 When a person dies or loses the capacity to act, legal authority over their
 affairs — and so over their accounts — passes to someone else. Who that is, when
 the authority starts, what bounds it, and when it ends are questions of law, and
-the answers vary widely between jurisdictions. A survey of 56 jurisdictions
+the answers vary widely between jurisdictions. A survey of 57 jurisdictions
 across 24 countries {{ROLES}} finds that almost nothing in this area is a query:
 nearly every question a custodian faces is the consequence of a **state
 transition**. Someone died. A clinician recorded a finding. A court appointed a

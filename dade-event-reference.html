@@ -209,7 +209,7 @@ footer{margin-top:56px;padding-top:18px;border-top:1px solid var(--rule);color:v
       <div id="events"></div>
 
       <footer>
-        Built from the <a href="index.html">DADE Event Profile 1.0</a> (draft 00) and the <a href="event-catalog.html">DADE Event Catalog</a>. Events marked <em>In spec</em> reproduce the draft's normative claims and examples. For <em>Candidate</em> events, the claim names, types, value sets and example payloads are illustrative and are not specified anywhere. The statutory grounding quoted in each <em>Why the law needs it</em> panel is drawn from the <a href="https://xebecstudios.org/research/digital-estate-roles/">Digital Estate Roles</a> survey of 56 jurisdictions across 24 countries, where each claim is cited to its primary source with a retrieval date. This is an independent working draft, not a publication of the OpenID Foundation, and it is not legal advice.
+        Built from the <a href="index.html">DADE Event Profile 1.0</a> (draft 00) and the <a href="event-catalog.html">DADE Event Catalog</a>. Events marked <em>In spec</em> reproduce the draft's normative claims and examples. For <em>Candidate</em> events, the claim names, types, value sets and example payloads are illustrative and are not specified anywhere. The statutory grounding quoted in each <em>Why the law needs it</em> panel is drawn from the <a href="https://xebecstudios.org/research/digital-estate-roles/">Digital Estate Roles</a> survey of 57 jurisdictions across 24 countries, where each claim is cited to its primary source with a retrieval date. This is an independent working draft, not a publication of the OpenID Foundation, and it is not legal advice.
       </footer>
     </main>
   </div>
@@ -487,7 +487,7 @@ document.getElementById("toc").innerHTML = `<h4 style="margin-top:0">Overview</h
 const nSpec = EVENTS.filter(e=>e.spec).length;
 const nGrounds = EVENTS.find(e=>e.name==="authority-refused").claims.find(c=>c[0]==="grounds")[3].length;
 document.getElementById("counts").innerHTML =
-  `<span><b>${EVENTS.length}</b> events</span><span><b>${nSpec}</b> in spec</span><span><b>${EVENTS.length-nSpec}</b> candidates</span><span><b>${GROUPS.length}</b> groups</span><span><b>${nGrounds}</b> refusal grounds drawn from statute</span><span><b>56</b> jurisdictions surveyed</span>`;
+  `<span><b>${EVENTS.length}</b> events</span><span><b>${nSpec}</b> in spec</span><span><b>${EVENTS.length-nSpec}</b> candidates</span><span><b>${GROUPS.length}</b> groups</span><span><b>${nGrounds}</b> refusal grounds drawn from statute</span><span><b>57</b> jurisdictions surveyed</span>`;
 
 /* filter */
 function applyFilter(f){
