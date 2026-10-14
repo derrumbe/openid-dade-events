@@ -153,6 +153,22 @@ appointed over this principal's property, under the law of Iowa, as at this
 date" is correct in all of them, and leaves the consequence to be evaluated by
 whoever is entitled to evaluate it.
 
+The survey supplies a second case with a different shape, and it is the reason
+`governing_law` carries a date rather than only a jurisdiction. Colorado runs
+**two durability tests at once**, selected by the age of the instrument. A power
+of attorney created on or after 1 January 2010 is durable by default; one
+existing on 31 December 2009 is durable only if it satisfied a magic-words test
+in a section the 2009 act superseded — and that section is still in force for
+the older cohort. Two instruments presented on the same morning, identical on
+their face, are governed by different tests because one was signed in 2008.
+
+So it is not enough for a Receiver to know which jurisdiction's law applies. It
+has to know **as of when**, and for some transitions that date is a property of
+the instrument rather than of the event. A Transmitter reporting on an authority
+whose governing test turns on the instrument's age SHOULD carry that date in
+`evidence` ({{common-event-claims}}), because `event_timestamp` is the time of
+the transition and will not supply it.
+
 Accordingly every event in this profile carries `governing_law`
 ({{common-event-claims}}), and a Transmitter that cannot or will not characterise
 the legal effect of the transition it is reporting SHOULD set
@@ -215,10 +231,17 @@ Attributes:
       ISO 3166-1 alpha-2 otherwise (`FR`, `SG`).
     - `as_at` - REQUIRED, JSON string: the date, in the format YYYY-MM-DD, as at
       which that jurisdiction's law is to be read.
-  The `as_at` value is not redundant with `event_timestamp`. A jurisdiction may
-  amend a provision with retroactive effect, so the law as at a past date is not
-  fixed merely because the date has passed; {{ROLES}} records an amendment of
-  this kind taking effect retroactively to a date nine months earlier.
+  The `as_at` value is not redundant with `event_timestamp`, for two reasons. A
+  jurisdiction may amend a provision with retroactive effect, so the law as at a
+  past date is not fixed merely because the date has passed; {{ROLES}} records an
+  amendment of this kind taking effect retroactively to a date nine months
+  earlier. And a jurisdiction may hold more than one rule in force at the same
+  time, selecting between them by the age of the instrument rather than by the
+  date of the event: {{ROLES}} records a state whose power-of-attorney durability
+  test is the current default for instruments created after a cut-off date and a
+  superseded magic-words section for those created before it, with both sections
+  live. Reading such a jurisdiction's law "as of today" yields the wrong test for
+  part of the population.
 - **canonical_role** - OPTIONAL, JSON string: the role the Holder holds or
   claims, drawn from a cross-jurisdiction role vocabulary so that an executor, a
   liquidator and a *Nachlassverwalter* can be recognised as the same role. The
@@ -458,6 +481,17 @@ Attributes:
   `holder_ref` (JSON string, an opaque reference as described in
   {{principal-subject}}) and MAY contain `holder_type` (one of `natural-person`,
   `legal-person`, `public-office`).
+
+  This claim is RECOMMENDED rather than OPTIONAL because in at least one
+  jurisdiction the Holder **cannot be derived at all**. Every default health-care
+  decision-maker in {{ROLES}} but one is the output of a statutory priority list,
+  which a Receiver holding the family tree could in principle compute. In the
+  exception, the statute ranks nobody: a class of "interested persons" — including
+  any close friend — must reach a consensus on who among them will decide, with
+  only qualitative guidance, no tie-break, and guardianship as the sole route out
+  of disagreement. Where none can be found or none is willing, the attending
+  physician may designate another physician. A Receiver cannot work that out from
+  any data it holds; it can only be told, which is what this claim is for.
 - **artefact** - OPTIONAL, JSON string: what evidences the authority. This MUST
   be one of `letters`, `grant`, `certificate-of-inheritance`, `court-order`,
   `instrument`, `affidavit`, `certification-of-trust`, `register-entry`,

@@ -39,6 +39,12 @@ law of Iowa, as at this date" is right in all of them. Hence `governing_law` on 
 event, and `effect_unspecified` for a Transmitter that will not characterise the
 consequence.
 
+The `as_at` half of `governing_law` has its own case. Colorado holds **two durability tests in
+force at once** and selects between them by the age of the instrument: the current default for a
+power created after 1 January 2010, and a superseded magic-words section — still live — for one
+created before it. So a Receiver needs to know not only whose law applies but as of when, and for
+some transitions that date belongs to the instrument rather than to the event.
+
 ## 1. The principal's state
 
 *The two transitions in the person themselves. Both are reversible.*
