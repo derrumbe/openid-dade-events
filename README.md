@@ -108,11 +108,11 @@ make clean
 
 `make all` also produces a `.docx` when `pandoc` is available.
 
-`kramdown-rfc` resolves the normative references by fetching reference XML from
-`bib.ietf.org` into a local `.refcache/`. Some sandboxed or proxied environments deny that
-host, which fails the build with a `403 Forbidden` from `net/http` rather than anything
-wrong in the source; CI reaches it. The markdown itself converts without network access —
-only the reference resolution needs it.
+`kramdown-rfc` resolves the normative references during conversion, fetching reference XML
+from `bib.ietf.org` into a local `.refcache/`, so a first build needs network access to that
+host. Where a sandbox or proxy denies it, the conversion fails with a `403 Forbidden` out of
+`net/http` — a reachability problem, not a source one. Once `.refcache/` is populated, later
+builds need no network at all.
 
 ## Status
 
